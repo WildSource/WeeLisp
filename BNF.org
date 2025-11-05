@@ -1,0 +1,32 @@
+#+title:  WeeLisp EBNF and Language Specs
+#+author: Samuel Nguyen-Phok
+#+date:   2025-11-05
+
+* WeeLisp Language Specification (BNF)
+
+#+begin_bnf
+<digit> ::= 0 | ... | 9
+<number> ::= <digit> <number> | <digit>
+
+<char> ::= "a" | ... | "z"
+<emptyString> ::= ""
+<string> ::= <emptyString> | <char> <string> | <char>
+
+<atom> ::= <number> | <char>
+
+<list> ::= <atom> <list> | <expr> <list> | <atom> | ()
+
+<listDef> ::= ( <list> )
+
+<operator> ::= + | - | * | /
+
+<expr> ::= <operator> <list>
+#+end_bnf
+
+* Language Syntax
+
+** Data types
+ - atom
+   - number
+   - string
+ - list
