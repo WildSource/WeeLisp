@@ -2,9 +2,9 @@
 #+author: Samuel Nguyen-Phok
 #+date:   2025-11-05
 
-* WeeLisp Language Specification (BNF)
+** (BNF)
 
-#+begin_bnf
+#+begin_src
 <digit> ::= 0 | ... | 9
 <number> ::= <digit> <number> | <digit>
 
@@ -21,11 +21,11 @@
 <operator> ::= + | - | * | /
 
 <expr> ::= <operator> <list>
-#+end_bnf
+#+end_src
 
-* Language Syntax
+** Language Syntax
 
-** Data types
+*** Data types
  - atom
    - number
    - string
