@@ -1,11 +1,11 @@
 module Types where
 
-data DataTypes a
-  = Digit a
-  | Number a
-  | Char a
-  | EmptyString a
-  | String a
-  | Atom a
-  | Operator a
+data DataTypes
+  = Digit Char
+  | Number Char
+  | Character Char
+  | EmptyString Char
+  | Characters Char
+  | Atom Char
+  | Operator Char
   deriving Show
