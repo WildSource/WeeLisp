@@ -1,6 +1,8 @@
 module Parser where
 
 import Control.Monad
+import Control.Applicative (Alternative(..), (<|>))
+import Data.List
 import Data.Char
 import Types
 
@@ -19,16 +21,14 @@ instance Functor (Parser i e) where
   fmap = liftM
 
 instance Applicative (Parser i e) where
-  pure = return
+  pure x = Parser $ \ input ->
+    Right (x, input)
   (<*>) = ap
 
 instance Monad (Parser i e) where
-  p >>= f = Parser $ \input ->
-    case parse p input of
-      Left err -> Left err
-      Right (x,xs) ->
-        let Parser p' = f x
-        in  p' xs
+  Parser p >>= f = Parser $ \input -> do
+    (output, rest) <- p input
+    parse (f output) rest
 
 satisfy :: (i -> Bool) -> Parser i e i
 satisfy predicate = Parser $ \ input ->
@@ -38,28 +38,19 @@ satisfy predicate = Parser $ \ input ->
       | predicate x -> Right (x, xs)
       | otherwise -> Left $ [Unexpected x]
 
-digitParser :: Parser Char () DataTypes
-digitParser = Parser $ \ input ->
-  let
-    digitParser' = satisfy isDigit 
-  in
-    case parse digitParser' input of
-      Left err -> Left err
-      Right (x,xs) -> Right (Digit x, xs)
+char :: Eq i => i -> Parser i e i
+char i = satisfy (== i)
 
-operatorParser :: Parser Char () DataTypes
-operatorParser = Parser $ \ input ->
-  let operatorParser' = satisfy isOperator
-  in
-    case parse operatorParser' input of
-      Left err -> Left err
-      Right (x,xs) -> Right (Operator x, xs)
-  where
-    isOperator :: Char -> Bool
-    isOperator x
-      | x == '+' = True
-      | x == '-' = True      
-      | x == '*' = True
-      | x == '/' = True
-      | otherwise = False
-      
+string :: Eq i => [i] -> Parser i e [i]
+string = traverse char
+
+instance (Eq i, Eq e) => Alternative (Parser i e) where
+  empty = Parser $ \_ -> Left [Empty]
+
+  Parser l <|> Parser r = Parser $ \input ->
+    case l input of
+      Left err ->
+        case r input of
+          Left err' -> Left $ nub $ err <> err'
+          Right (output, rest) -> Right (output, rest)
+      Right (output, rest) -> Right (output, rest)
