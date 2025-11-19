@@ -6,8 +6,5 @@ data DataTypes
   | Character Char
   | EmptyString
   | Characters String
-  | Atom Char
   | Operator Char
-  | LeftParenthesis Char
-  | RightParenthesis Char
   deriving Show
