@@ -4,8 +4,8 @@ data DataTypes
   = Digit Char
   | Number Int
   | Character Char
-  | EmptyString Char
-  | Characters Char
+  | EmptyString
+  | Characters String
   | Atom Char
   | Operator Char
   | LeftParenthesis Char

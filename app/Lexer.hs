@@ -19,6 +19,16 @@ numberParser = do
   let num = read numStr :: Int
   pure (Number num)
 
+emptyStringParser :: Parser Char () DataTypes
+emptyStringParser = do
+  _ <- string "\"\""
+  pure EmptyString
+
+charactersParser :: Parser Char () DataTypes
+charactersParser = do
+  chars <- some (satisfy isAlpha)
+  pure (Characters chars)
+
 operatorParser :: Parser Char () DataTypes
 operatorParser = Parser $ \ input ->
   let
