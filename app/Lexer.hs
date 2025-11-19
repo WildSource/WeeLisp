@@ -44,6 +44,9 @@ operatorParser = Parser $ \ input ->
 whitespace :: Parser Char () String
 whitespace = many (satisfy isSpace)
 
+value :: Parser Char () DataTypes
+value = operatorParser <|> numberParser
+
 tokenize :: Parser Char () [DataTypes]
-tokenize = some ((operatorParser <|> numberParser) <* whitespace)
+tokenize = some (value <* whitespace)
 
