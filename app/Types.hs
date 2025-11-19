@@ -2,7 +2,7 @@ module Types where
 
 data DataTypes
   = Digit Char
-  | Number Char
+  | Number Int
   | Character Char
   | EmptyString Char
   | Characters Char
