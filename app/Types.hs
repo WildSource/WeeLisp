@@ -1,8 +1,7 @@
 module Types where
 
 data DataTypes
-  = Digit Char
-  | Number Int
+  = Number Int
   | Character Char
   | EmptyString
   | Characters String

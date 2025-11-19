@@ -5,19 +5,14 @@ import Parser
 import Data.Char
 import Control.Applicative
 
-digitParser :: Parser Char () DataTypes
-digitParser = Parser $ \ input -> do
-  (x, xs) <- parse (satisfy isDigit) input
-  Right (Digit x, xs)
-
-rawDigitParser :: Parser Char () Char
-rawDigitParser = satisfy isDigit
-
 numberParser :: Parser Char () DataTypes
 numberParser = do
   numStr <- some rawDigitParser
   let num = read numStr :: Int
   pure (Number num)
+  where
+    rawDigitParser :: Parser Char () Char
+    rawDigitParser = satisfy isDigit
 
 emptyStringParser :: Parser Char () DataTypes
 emptyStringParser = do
@@ -45,4 +40,10 @@ operatorParser = Parser $ \ input ->
       | x == '*' = True
       | x == '/' = True
       | otherwise = False
-      
+
+whitespace :: Parser Char () String
+whitespace = many (satisfy isSpace)
+
+tokenize :: Parser Char () [DataTypes]
+tokenize = some ((operatorParser <|> numberParser) <* whitespace)
+
