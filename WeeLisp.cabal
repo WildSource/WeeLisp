@@ -62,7 +62,9 @@ executable WeeLisp
     main-is:          Main.hs
 
     -- Modules included in this executable, other than Main.
-    other-modules: Types,
+    other-modules: WeeLisp,
+                   Types,
+                   Lexer,
                    Parser,
                    Parsers,
                    Lexer
@@ -79,3 +81,15 @@ executable WeeLisp
 
     -- Base language which the package is written in.
     default-language: GHC2021
+
+
+
+
+
+
+
+
+
+
+
+

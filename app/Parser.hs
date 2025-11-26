@@ -3,8 +3,6 @@ module Parser where
 import Control.Monad
 import Control.Applicative (Alternative(..), (<|>))
 import Data.List
-import Data.Char
-import Types
 
 data Error i e
   = EndOfInput  -- Expected more input, but there is nothing

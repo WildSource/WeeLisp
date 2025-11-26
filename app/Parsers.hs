@@ -2,9 +2,7 @@ module Parsers where
 
 import Data.Tree
 import Types(DataTypes (..))
-import Parser(satisfy, Error (..), Parser (parse))
-import Lexer
-import Control.Applicative ((<|>))
+import Parser(satisfy, Error (..), Parser (..))
 
 type AST = Tree DataTypes
 type LexerOutput = (Either [Error Char ()] (DataTypes, [Char]))
@@ -27,10 +25,4 @@ expressionParser = do
   arg2 <- satisfy isValue
   let ast = Node op [Node arg1 [], Node arg2 []]
   pure ast
-
-generateAST :: String -> AST
-generateAST input =
-  case parse tokenize input of
-    Right (tokens, _) -> parse expressionParser tokens
-    Left err -> error $ show err
 
