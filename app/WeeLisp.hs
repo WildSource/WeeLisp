@@ -1,9 +1,11 @@
 module WeeLisp
-  ( module Parser
+  ( module Interpreter
+  , module Parser
   , module Parsers
   , module Lexer
   ) where
 
+import Interpreter
 import Parser
 import Parsers
 import Lexer

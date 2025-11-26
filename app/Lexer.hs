@@ -24,22 +24,48 @@ charactersParser = do
   chars <- some (satisfy isAlpha)
   pure (Characters chars)
 
-operatorParser :: Parser Char () DataTypes
-operatorParser = Parser $ \ input ->
+additionParser :: Parser Char () DataTypes
+additionParser = Parser $ \ input ->
   let
-    operatorParser' = satisfy isOperator
+    operatorParser' = satisfy ('+' ==)
   in
     case parse operatorParser' input of
       Left err -> Left err
-      Right (x,xs) -> Right (Operator x, xs)
-  where
-    isOperator :: Char -> Bool
-    isOperator x
-      | x == '+' = True
-      | x == '-' = True      
-      | x == '*' = True
-      | x == '/' = True
-      | otherwise = False
+      Right (x,xs) -> Right (Operator (Addition x), xs)
+
+subtractionParser :: Parser Char () DataTypes
+subtractionParser = Parser $ \ input ->
+  let
+    operatorParser' = satisfy ('-' ==)
+  in
+    case parse operatorParser' input of
+      Left err -> Left err
+      Right (x,xs) -> Right (Operator (Subtraction x), xs)
+
+multiplicationParser :: Parser Char () DataTypes
+multiplicationParser = Parser $ \ input ->
+  let
+    operatorParser' = satisfy ('*' ==)
+  in
+    case parse operatorParser' input of
+      Left err -> Left err
+      Right (x,xs) -> Right (Operator (Multiplication x), xs)
+
+divisionParser :: Parser Char () DataTypes
+divisionParser = Parser $ \ input ->
+  let
+    operatorParser' = satisfy ('/' ==)
+  in
+    case parse operatorParser' input of
+      Left err -> Left err
+      Right (x,xs) -> Right (Operator (Division x), xs)
+
+operatorParser :: Parser Char () DataTypes
+operatorParser
+  = additionParser
+  <|> subtractionParser
+  <|> multiplicationParser
+  <|> divisionParser
 
 whitespace :: Parser Char () String
 whitespace = many (satisfy isSpace)

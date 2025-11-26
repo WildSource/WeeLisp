@@ -67,7 +67,7 @@ executable WeeLisp
                    Lexer,
                    Parser,
                    Parsers,
-                   Lexer
+                   Interpreter
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
@@ -81,15 +81,4 @@ executable WeeLisp
 
     -- Base language which the package is written in.
     default-language: GHC2021
-
-
-
-
-
-
-
-
-
-
-
 

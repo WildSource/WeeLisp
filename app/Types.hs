@@ -5,5 +5,12 @@ data DataTypes
   | Character Char
   | EmptyString
   | Characters String
-  | Operator Char
+  | Operator Operator
+  deriving Show
+
+data Operator
+  = Addition Char
+  | Subtraction Char
+  | Multiplication Char
+  | Division Char
   deriving Show
